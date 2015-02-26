@@ -4,12 +4,14 @@ from bs4 import BeautifulSoup
 import urllib.request
 import sys
 
+#Download source code of a page
 def getSource(url):
     reponse = urllib.request.urlopen(url)
     pageSource = reponse.read()
    
     return BeautifulSoup(pageSource.decode("utf8"))
 
+#Get all photoset image url
 def getPhotosetImagesUrl(url):
     ret = []
     html = getSource(url)
