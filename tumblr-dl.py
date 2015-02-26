@@ -15,11 +15,23 @@ def dlProgress(count, blockSize, totalSize):
     
 def getFilename(url):
     return url[url.rfind('/')+1:]
-    
 
 def downloadTumblr(url):
+    basename = url[:-1]
+    html = photoset.getSource(url)
+    
+    print("Downloading " + url + "page/1")
+    downloadPage(html)
+    page = html.find('a', attrs = {'id' : 'next'})
+    
+    while(page):
+        print("Downloading " + basename + page['href'])
+        html = photoset.getSource(basename + page['href'])
+        downloadPage(html)
+        page = html.find('a', attrs = {'id' : 'next'})
+
+def downloadPage(html):
     global rem_file
-    html = photoset.getSource(url);
     photosets = html.findAll('iframe', attrs={'class' : 'photoset'})
     for s in photosets:
         imgUrl = photoset.getPhotosetImagesUrl(s['src'])
@@ -28,7 +40,11 @@ def downloadTumblr(url):
             urllib.request.urlretrieve(u, rem_file, reporthook=dlProgress)
             print("")
             
-        
+    images = html.findAll('img', attrs = {'id' : 'photo'})
+    for i in images:
+        rem_file = getFilename(i['src'])
+        urllib.request.urlretrieve(u, rem_file, reporthook=dlProgress)
+        print("")
 
 def printUsage():
     print("Usage : " + sys.argv[0] + " [tumblr url]")
