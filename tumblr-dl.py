@@ -1,4 +1,4 @@
-#/usr/bin/python3.3
+#!/usr/bin/python3.3
 
 from bs4 import BeautifulSoup
 import urllib.request
@@ -15,5 +15,5 @@ def printUsage():
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         printUsage()
-    else
+    else:
         downloadTumblr(sys.argv[1])
