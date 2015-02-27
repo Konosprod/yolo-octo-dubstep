@@ -15,7 +15,8 @@ def dlProgress(count, blockSize, totalSize):
     percent = int(count*blockSize*100/totalSize)
     sys.stdout.write("\r"+ "Downloading " + rem_file + " ...%d%%" % percent)
     sys.stdout.flush()
-    
+
+#Get blog name    
 def getBlogName(url):
     name = url[:-1]
     return name[name.rfind('/')+1:name.find('.')]
@@ -30,8 +31,8 @@ def downloadTumblr(url):
     basename = url[:-1]
     html = photoset.getSource(url)
     
+    #Create blog directory
     directory = getBlogName(url)
-    
     os.mkdir(directory)
     
     print("Downloading " + url + "page/1")
